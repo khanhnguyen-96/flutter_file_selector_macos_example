@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -45,24 +46,37 @@ class _MyHomePageState extends State<MyHomePage> {
                   : 'You have yet to select any image',
             ),
             if (hasImage)
-              Container(
-                margin: const EdgeInsets.all(16),
-                width: double.infinity,
-                child: Image.file(
-                  File(imagePath!),
-                  fit: BoxFit.cover,
+              Expanded(
+                child: Container(
+                  margin: const EdgeInsets.all(16),
+                  width: double.infinity,
+                  child: Image.file(
+                    File(imagePath!),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          //TODO
-        },
+        onPressed: showPicker,
         tooltip: 'Open file selector',
         child: Icon(Icons.attach_file_outlined),
       ),
     );
+  }
+  void showPicker() async {
+    final typeGroup = XTypeGroup(
+      label: 'images',
+      extensions: const ['jpg', 'png', 'heic'],
+    );
+
+    final xFile = await openFile(acceptedTypeGroups: [typeGroup]);
+    if (xFile != null) {
+      setState(() {
+        imagePath = xFile.path;
+      });
+    }
   }
 }
