@@ -1,2 +1,2 @@
-# flutter-file-selector-macos-example
+# Flutter File Selector Example for MacOS
 A minimum example of adding a file selection to your Flutter application on MacOS
